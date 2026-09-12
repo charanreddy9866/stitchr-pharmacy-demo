@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stitchr Pharmacy MVP - Interactive Prototype</title>
+  <title>Stitchr Pharmacy - Professional Ordering System</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -17,6 +17,7 @@
     :root {
       --primary: #185FA5;
       --primary-dark: #0C447C;
+      --primary-light: #E8F2FF;
       --accent: #EF9F27;
       --success: #639922;
       --danger: #E24B4A;
@@ -25,115 +26,346 @@
       --text-secondary: #666;
       --text-muted: #999;
       --bg: #ffffff;
-      --bg-gray: #f8f8f8;
+      --bg-gray: #f5f7fa;
+      --shadow: 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background: var(--bg);
+      background: var(--bg-gray);
       color: var(--text);
+      line-height: 1.6;
     }
 
+    /* HEADER / NAV */
+    .header {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+    }
+
+    .header-top {
+      background: #f0f0f0;
+      padding: 8px 0;
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-align: center;
+    }
+
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 40px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin: 0 40px;
+    }
+
+    .nav-link {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+
+    .nav-link:hover {
+      color: var(--primary);
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: var(--bg-gray);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      width: 250px;
+    }
+
+    .search-box input {
+      border: none;
+      background: none;
+      outline: none;
+      flex: 1;
+      font-size: 14px;
+    }
+
+    .search-icon {
+      cursor: pointer;
+      color: var(--text-secondary);
+    }
+
+    .nav-icons {
+      display: flex;
+      gap: 20px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 16px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      font-size: 18px;
+      opacity: 0.95;
+      margin-bottom: 20px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(239, 159, 39, 0.3);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover {
+      background: transparent;
+      color: white;
+    }
+
+    /* CONTAINER */
     .container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 0 40px;
     }
 
-    header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: white;
-      padding: 30px 20px;
-      margin: -20px -20px 30px -20px;
-      border-radius: 0 0 12px 12px;
+    /* SECTION TITLE */
+    .section-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 30px;
+      color: var(--text);
     }
 
-    header h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 14px;
-      opacity: 0.95;
-    }
-
+    /* TABS */
     .tab-nav {
       display: flex;
-      gap: 10px;
+      gap: 0;
       margin-bottom: 30px;
       border-bottom: 2px solid var(--border);
+      background: white;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+      box-shadow: var(--shadow);
     }
 
     .tab-button {
-      padding: 12px 24px;
+      flex: 1;
+      padding: 16px;
       border: none;
-      background: none;
+      background: white;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      color: var(--text-muted);
-      border-bottom: 3px solid transparent;
+      color: var(--text-secondary);
+      text-align: center;
       transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
     }
 
     .tab-button.active {
       color: var(--primary);
       border-bottom-color: var(--primary);
+      background: var(--primary-light);
     }
 
     .tab-button:hover {
-      color: var(--text);
+      background: var(--bg-gray);
     }
 
+    /* TAB CONTENT */
     .tab-content {
       display: none;
     }
 
     .tab-content.active {
       display: block;
+      animation: fadeIn 0.3s ease-out;
     }
 
-    /* Pharmacy Tech View */
-    .form-section {
-      background: var(--bg-gray);
-      padding: 30px;
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* PRODUCT GRID */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid var(--border);
       border-radius: 12px;
-      margin-bottom: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
     }
 
-    .form-section h2 {
-      font-size: 20px;
-      margin-bottom: 20px;
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+
+    .product-image {
+      background: linear-gradient(135deg, var(--primary-light) 0%, #E3F2FD 100%);
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .product-info {
+      padding: 16px;
+    }
+
+    .product-name {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
       color: var(--text);
+    }
+
+    .product-category {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .product-btn {
+      width: 100%;
+      padding: 10px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .product-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ORDER FORM */
+    .order-form {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      margin-bottom: 30px;
     }
 
     .form-group {
       margin-bottom: 20px;
     }
 
-    label {
+    .form-label {
       display: block;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 8px;
       font-size: 14px;
       color: var(--text);
     }
 
-    input, select, textarea {
+    .form-input, .form-select, .form-textarea {
       width: 100%;
       padding: 12px;
-      border: 2px solid var(--border);
-      border-radius: 6px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
       font-size: 14px;
       font-family: inherit;
-      transition: border-color 0.3s ease;
+      transition: all 0.3s ease;
     }
 
-    input:focus, select:focus, textarea:focus {
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.1);
+      box-shadow: 0 0 0 3px var(--primary-light);
     }
 
     .form-row {
@@ -142,95 +374,74 @@
       gap: 20px;
     }
 
-    button {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
+    /* DASHBOARD CARDS */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: var(--shadow);
       transition: all 0.3s ease;
     }
 
-    .btn-primary {
-      background: var(--primary);
-      color: white;
+    .dashboard-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
     }
 
-    .btn-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-2px);
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
     }
 
-    .btn-secondary {
-      background: white;
+    .card-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card-value {
+      font-size: 36px;
+      font-weight: 800;
       color: var(--primary);
-      border: 2px solid var(--primary);
+      margin-bottom: 6px;
     }
 
-    .btn-secondary:hover {
-      background: var(--primary);
-      color: white;
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
     }
 
-    .btn-success {
-      background: var(--success);
-      color: white;
+    /* TABLE */
+    .table-section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
     }
 
-    .btn-success:hover {
-      background: #4a7319;
-    }
-
-    .btn-danger {
-      background: var(--danger);
-      color: white;
-    }
-
-    .btn-danger:hover {
-      background: #c93939;
-    }
-
-    .btn-small {
-      padding: 8px 16px;
-      font-size: 12px;
-    }
-
-    /* Notifications */
-    .notification {
-      padding: 15px 20px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .table-header {
+      background: var(--bg-gray);
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
       font-size: 14px;
     }
 
-    .notification.success {
-      background: #e8f5e9;
-      color: #2e7d32;
-      border-left: 4px solid var(--success);
-    }
-
-    .notification.info {
-      background: #e3f2fd;
-      color: #1565c0;
-      border-left: 4px solid var(--primary);
-    }
-
-    .notification.error {
-      background: #ffebee;
-      color: #c62828;
-      border-left: 4px solid var(--danger);
-    }
-
-    /* Tables */
-    .table-container {
-      background: white;
-      border-radius: 12px;
-      border: 2px solid var(--border);
-      overflow: hidden;
+    .table-content {
+      overflow-x: auto;
     }
 
     table {
@@ -240,17 +451,17 @@
 
     th {
       background: var(--bg-gray);
-      padding: 16px;
+      padding: 14px 20px;
       text-align: left;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     td {
-      padding: 16px;
+      padding: 14px 20px;
       border-top: 1px solid var(--border);
       font-size: 14px;
     }
@@ -259,136 +470,140 @@
       background: var(--bg-gray);
     }
 
-    .status-badge {
+    /* STATUS BADGE */
+    .badge {
       display: inline-block;
       padding: 6px 12px;
       border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
     }
 
-    .status-pending {
+    .badge-pending {
       background: #fff3cd;
       color: #856404;
     }
 
-    .status-approved {
+    .badge-approved {
       background: #d4edda;
       color: #155724;
     }
 
-    .status-delivered {
+    .badge-delivered {
       background: #d1ecf1;
       color: #0c5460;
     }
 
-    .status-rejected {
+    /* FEATURES SECTION */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .feature-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .feature-item:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .feature-title {
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .feature-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* NOTIFICATION */
+    .notification {
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      animation: slideIn 0.4s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .notification.success {
+      background: #d4edda;
+      color: #155724;
+      border-left: 4px solid var(--success);
+    }
+
+    .notification.error {
       background: #f8d7da;
       color: #721c24;
-    }
-
-    /* Dashboard Cards */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      border: 2px solid var(--border);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .card-value {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 5px;
-    }
-
-    .card-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-    }
-
-    /* Inventory */
-    .inventory-item {
-      background: white;
-      padding: 16px;
-      border-radius: 8px;
-      border: 2px solid var(--border);
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .inventory-info {
-      flex: 1;
-    }
-
-    .inventory-name {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .inventory-status {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .inventory-quantity {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--primary);
-      min-width: 80px;
-      text-align: right;
-    }
-
-    .low-stock {
       border-left: 4px solid var(--danger);
-      background: #fff5f5;
     }
 
-    /* Success Message */
-    .success-message {
-      text-align: center;
+    /* FOOTER */
+    footer {
+      background: var(--text);
+      color: white;
       padding: 40px;
-      background: var(--bg-gray);
-      border-radius: 12px;
-      margin: 20px 0;
+      margin-top: 60px;
+      text-align: center;
+      font-size: 13px;
     }
 
-    .success-message h3 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: var(--success);
-    }
-
-    .success-message p {
-      color: var(--text-secondary);
-      margin-bottom: 20px;
-    }
-
-    /* Responsive */
+    /* RESPONSIVE */
     @media (max-width: 768px) {
+      .navbar {
+        padding: 12px 20px;
+        flex-wrap: wrap;
+      }
+
+      .nav-center {
+        display: none;
+      }
+
+      .logo {
+        font-size: 18px;
+      }
+
+      .search-box {
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
       .form-row {
         grid-template-columns: 1fr;
       }
@@ -397,12 +612,12 @@
         grid-template-columns: 1fr;
       }
 
-      table {
-        font-size: 12px;
+      .hero h1 {
+        font-size: 28px;
       }
 
-      td, th {
-        padding: 12px;
+      .section-title {
+        font-size: 24px;
       }
     }
   </style>
@@ -413,62 +628,55 @@
   <script type="text/babel">
     const { useState } = React;
 
-    const StiтchrPharmacyPrototype = () => {
-      const [activeTab, setActiveTab] = useState('tech');
-      const [drugs] = useState([
-        { id: 1, name: 'Omeprazole', category: 'Antacid' },
-        { id: 2, name: 'Atorvastatin', category: 'Cholesterol' },
-        { id: 3, name: 'Lisinopril', category: 'Blood Pressure' },
-        { id: 4, name: 'Metformin', category: 'Diabetes' },
-        { id: 5, name: 'Ibuprofen', category: 'Pain Relief' },
-        { id: 6, name: 'Amoxicillin', category: 'Antibiotic' },
-      ]);
+    const StiтchrProfessional = () => {
+      const [activeTab, setActiveTab] = useState('order');
+      const [searchQuery, setSearchQuery] = useState('');
+      const [notification, setNotification] = useState(null);
 
-      const [suppliers] = useState([
+      const drugs = [
+        { id: 1, name: 'Omeprazole', category: 'Antacid', icon: '💊', price: '$45' },
+        { id: 2, name: 'Atorvastatin', category: 'Cholesterol', icon: '❤️', price: '$60' },
+        { id: 3, name: 'Lisinopril', category: 'Blood Pressure', icon: '⚡', price: '$35' },
+        { id: 4, name: 'Metformin', category: 'Diabetes', icon: '🩹', price: '$40' },
+        { id: 5, name: 'Ibuprofen', category: 'Pain Relief', icon: '🌡️', price: '$20' },
+        { id: 6, name: 'Amoxicillin', category: 'Antibiotic', icon: '🦠', price: '$55' },
+      ];
+
+      const suppliers = [
         { id: 1, name: 'Cardinal Health' },
         { id: 2, name: 'McKesson' },
         { id: 3, name: 'Henry Schein' },
         { id: 4, name: 'Anda' },
-      ]);
+      ];
 
       const [orders, setOrders] = useState([
-        { id: 1, drug: 'Omeprazole', qty: 500, supplier: 'Cardinal Health', status: 'DELIVERED', cost: 350, date: '2026-10-05' },
-        { id: 2, drug: 'Atorvastatin', qty: 1000, supplier: 'McKesson', status: 'APPROVED', cost: 500, date: '2026-10-06' },
-        { id: 3, drug: 'Lisinopril', qty: 250, supplier: 'Henry Schein', status: 'PENDING', cost: 175, date: '2026-10-07' },
-      ]);
-
-      const [inventory, setInventory] = useState([
-        { id: 1, drug: 'Omeprazole', qty: 500, reorder: 100 },
-        { id: 2, drug: 'Atorvastatin', qty: 25, reorder: 200 },
-        { id: 3, drug: 'Lisinopril', qty: 180, reorder: 150 },
-        { id: 4, drug: 'Metformin', qty: 350, reorder: 200 },
+        { id: 1, drug: 'Omeprazole', qty: 500, supplier: 'Cardinal Health', status: 'DELIVERED', date: '2026-10-05' },
+        { id: 2, drug: 'Atorvastatin', qty: 1000, supplier: 'McKesson', status: 'APPROVED', date: '2026-10-06' },
+        { id: 3, drug: 'Lisinopril', qty: 250, supplier: 'Henry Schein', status: 'PENDING', date: '2026-10-07' },
       ]);
 
       const [formData, setFormData] = useState({
         drug: '',
         quantity: '',
         supplier: '',
-        notes: '',
+        notes: ''
       });
 
-      const [notification, setNotification] = useState(null);
-
       const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-          ...prev,
-          [name]: value
-        }));
+        setFormData({
+          ...formData,
+          [e.target.name]: e.target.value
+        });
+      };
+
+      const handleAddToOrder = (drugName) => {
+        setFormData(prev => ({ ...prev, drug: drugName }));
       };
 
       const handleSubmitOrder = (e) => {
         e.preventDefault();
-        
         if (!formData.drug || !formData.quantity || !formData.supplier) {
-          setNotification({
-            type: 'error',
-            message: '❌ Please fill in all required fields'
-          });
+          setNotification({ type: 'error', message: '❌ Please fill in all required fields' });
           return;
         }
 
@@ -478,425 +686,401 @@
           qty: parseInt(formData.quantity),
           supplier: suppliers.find(s => s.id === parseInt(formData.supplier))?.name,
           status: 'PENDING',
-          cost: 0,
           date: new Date().toISOString().split('T')[0]
         };
 
         setOrders([newOrder, ...orders]);
         setFormData({ drug: '', quantity: '', supplier: '', notes: '' });
-        
-        setNotification({
-          type: 'success',
-          message: '✓ Order submitted! Admin will review and approve.'
-        });
-
+        setNotification({ type: 'success', message: '✅ Order submitted successfully!' });
         setTimeout(() => setNotification(null), 3000);
       };
 
-      const handleApproveOrder = (id) => {
-        setOrders(orders.map(order => 
-          order.id === id ? { ...order, status: 'APPROVED' } : order
-        ));
-        setNotification({
-          type: 'success',
-          message: '✓ Order approved! Notification sent to Slack.'
-        });
+      const handleApprove = (id) => {
+        setOrders(orders.map(o => o.id === id ? { ...o, status: 'APPROVED' } : o));
+        setNotification({ type: 'success', message: '✅ Order approved!' });
         setTimeout(() => setNotification(null), 2000);
       };
 
-      const handleDeliverOrder = (id) => {
-        const order = orders.find(o => o.id === id);
-        setOrders(orders.map(o => 
-          o.id === id ? { ...o, status: 'DELIVERED' } : o
-        ));
-        
-        // Update inventory
-        setInventory(inventory.map(inv => 
-          inv.drug === order.drug ? { ...inv, qty: inv.qty + order.qty } : inv
-        ));
-
-        setNotification({
-          type: 'success',
-          message: `✓ Order delivered! Inventory updated (+${order.qty} ${order.drug})`
-        });
+      const handleDeliver = (id) => {
+        setOrders(orders.map(o => o.id === id ? { ...o, status: 'DELIVERED' } : o));
+        setNotification({ type: 'success', message: '✅ Order delivered!' });
         setTimeout(() => setNotification(null), 2000);
-      };
-
-      const totalSpend = orders.filter(o => o.cost > 0).reduce((sum, o) => sum + o.cost, 0);
-      const totalOrders = orders.length;
-      const approvedOrders = orders.filter(o => o.status === 'APPROVED').length;
-      const deliveredOrders = orders.filter(o => o.status === 'DELIVERED').length;
-
-      const getStatusColor = (status) => {
-        switch(status) {
-          case 'PENDING': return 'status-pending';
-          case 'APPROVED': return 'status-approved';
-          case 'DELIVERED': return 'status-delivered';
-          case 'REJECTED': return 'status-rejected';
-          default: return '';
-        }
       };
 
       return (
-        <div className="container">
-          <header>
-            <h1>🏥 Stitchr Pharmacy MVP</h1>
-            <p>Interactive Prototype • Test the order tracking system • Pharmacy Tech + Admin Views</p>
-          </header>
-
-          <div className="tab-nav">
-            <button 
-              className={`tab-button ${activeTab === 'tech' ? 'active' : ''}`}
-              onClick={() => setActiveTab('tech')}
-            >
-              👩‍💻 Pharmacy Tech (Place Order)
-            </button>
-            <button 
-              className={`tab-button ${activeTab === 'admin' ? 'active' : ''}`}
-              onClick={() => setActiveTab('admin')}
-            >
-              📊 Admin Dashboard
-            </button>
-            <button 
-              className={`tab-button ${activeTab === 'inventory' ? 'active' : ''}`}
-              onClick={() => setActiveTab('inventory')}
-            >
-              📦 Inventory Tracking
-            </button>
+        <>
+          {/* HEADER */}
+          <div className="header">
+            <div className="header-top">
+              ✨ Free 2-week trial • No credit card required • No contracts
+            </div>
+            <div className="navbar">
+              <div className="logo">🏥 Stitchr</div>
+              <div className="nav-center">
+                <span className="nav-link" onClick={() => setActiveTab('order')}>Order</span>
+                <span className="nav-link" onClick={() => setActiveTab('dashboard')}>Dashboard</span>
+                <span className="nav-link" onClick={() => setActiveTab('featured')}>Medications</span>
+              </div>
+              <div className="nav-right">
+                <div className="search-box">
+                  <input 
+                    type="text" 
+                    placeholder="Search medications..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <span className="search-icon">🔍</span>
+                </div>
+                <div className="nav-icons">
+                  <span title="Account">👤</span>
+                  <span title="Cart">🛒</span>
+                  <span title="Help">❓</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* PHARMACY TECH VIEW */}
-          <div className={`tab-content ${activeTab === 'tech' ? 'active' : ''}`}>
+          {/* HERO */}
+          <div className="hero">
+            <h1>Pharmacy Supply Management Made Simple</h1>
+            <p>One app for ordering, tracking, and managing your entire pharmaceutical inventory</p>
+            <div className="hero-buttons">
+              <button className="btn btn-primary">Start Free Trial</button>
+              <button className="btn btn-secondary">Watch Demo</button>
+            </div>
+          </div>
+
+          <div className="container">
             {notification && (
               <div className={`notification ${notification.type}`}>
                 {notification.message}
               </div>
             )}
 
-            <div className="form-section">
-              <h2>Submit New Order</h2>
-              <form onSubmit={handleSubmitOrder}>
-                <div className="form-group">
-                  <label>Drug/Medication *</label>
-                  <select 
-                    name="drug" 
-                    value={formData.drug}
-                    onChange={handleInputChange}
-                    required
-                  >
-                    <option value="">Select a drug...</option>
-                    {drugs.map(drug => (
-                      <option key={drug.id} value={drug.name}>
-                        {drug.name} ({drug.category})
-                      </option>
-                    ))}
-                  </select>
-                </div>
+            {/* TABS */}
+            <div className="tab-nav">
+              <button 
+                className={`tab-button ${activeTab === 'order' ? 'active' : ''}`}
+                onClick={() => setActiveTab('order')}
+              >
+                ✏️ Place Order
+              </button>
+              <button 
+                className={`tab-button ${activeTab === 'dashboard' ? 'active' : ''}`}
+                onClick={() => setActiveTab('dashboard')}
+              >
+                📊 Dashboard
+              </button>
+              <button 
+                className={`tab-button ${activeTab === 'featured' ? 'active' : ''}`}
+                onClick={() => setActiveTab('featured')}
+              >
+                💊 Browse Medications
+              </button>
+              <button 
+                className={`tab-button ${activeTab === 'features' ? 'active' : ''}`}
+                onClick={() => setActiveTab('features')}
+              >
+                ⭐ Why Stitchr
+              </button>
+            </div>
 
-                <div className="form-row">
+            {/* ORDER TAB */}
+            <div className={`tab-content ${activeTab === 'order' ? 'active' : ''}`}>
+              <div className="order-form">
+                <h2 className="section-title">📝 Submit New Order</h2>
+                <form onSubmit={handleSubmitOrder}>
                   <div className="form-group">
-                    <label>Quantity (units) *</label>
-                    <input 
-                      type="number" 
-                      name="quantity"
-                      value={formData.quantity}
-                      onChange={handleInputChange}
-                      placeholder="e.g., 500"
-                      required
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label>Supplier *</label>
+                    <label className="form-label">Select Medication *</label>
                     <select 
-                      name="supplier"
-                      value={formData.supplier}
+                      className="form-select"
+                      name="drug"
+                      value={formData.drug}
                       onChange={handleInputChange}
                       required
                     >
-                      <option value="">Select supplier...</option>
-                      {suppliers.map(supplier => (
-                        <option key={supplier.id} value={supplier.id}>
-                          {supplier.name}
-                        </option>
+                      <option value="">Choose a medication...</option>
+                      {drugs.map(d => (
+                        <option key={d.id} value={d.name}>{d.icon} {d.name}</option>
                       ))}
                     </select>
                   </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">Quantity (units) *</label>
+                      <input 
+                        type="number"
+                        className="form-input"
+                        name="quantity"
+                        value={formData.quantity}
+                        onChange={handleInputChange}
+                        placeholder="Enter quantity"
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Select Supplier *</label>
+                      <select 
+                        className="form-select"
+                        name="supplier"
+                        value={formData.supplier}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        <option value="">Choose supplier...</option>
+                        {suppliers.map(s => (
+                          <option key={s.id} value={s.id}>{s.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Special Instructions (optional)</label>
+                    <textarea 
+                      className="form-textarea"
+                      name="notes"
+                      value={formData.notes}
+                      onChange={handleInputChange}
+                      placeholder="Add any special instructions..."
+                      rows="3"
+                    />
+                  </div>
+
+                  <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '14px' }}>
+                    Submit Order
+                  </button>
+                </form>
+              </div>
+
+              <h2 className="section-title">📋 Recent Orders</h2>
+              <div className="table-section">
+                <div className="table-header">Your Orders ({orders.length})</div>
+                <div className="table-content">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Medication</th>
+                        <th>Qty</th>
+                        <th>Supplier</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.map(order => (
+                        <tr key={order.id}>
+                          <td><strong>{order.drug}</strong></td>
+                          <td>{order.qty}</td>
+                          <td>{order.supplier}</td>
+                          <td><span className={`badge badge-${order.status.toLowerCase()}`}>{order.status}</span></td>
+                          <td>{order.date}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* DASHBOARD TAB */}
+            <div className={`tab-content ${activeTab === 'dashboard' ? 'active' : ''}`}>
+              <h2 className="section-title">📊 Order Management Dashboard</h2>
+              
+              <div className="dashboard-grid">
+                <div className="dashboard-card">
+                  <div className="card-icon">📦</div>
+                  <div className="card-label">Total Orders</div>
+                  <div className="card-value">{orders.length}</div>
+                  <div className="card-desc">All time</div>
                 </div>
 
-                <div className="form-group">
-                  <label>Notes (optional)</label>
-                  <textarea 
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleInputChange}
-                    placeholder="Any special instructions..."
-                    rows="3"
-                  />
+                <div className="dashboard-card">
+                  <div className="card-icon">✅</div>
+                  <div className="card-label">Pending Review</div>
+                  <div className="card-value">{orders.filter(o => o.status === 'PENDING').length}</div>
+                  <div className="card-desc">Awaiting approval</div>
                 </div>
 
-                <button type="submit" className="btn-primary">
-                  Submit Order
+                <div className="dashboard-card">
+                  <div className="card-icon">🚀</div>
+                  <div className="card-label">Approved</div>
+                  <div className="card-value">{orders.filter(o => o.status === 'APPROVED').length}</div>
+                  <div className="card-desc">In transit</div>
+                </div>
+
+                <div className="dashboard-card">
+                  <div className="card-icon">🎉</div>
+                  <div className="card-label">Delivered</div>
+                  <div className="card-value">{orders.filter(o => o.status === 'DELIVERED').length}</div>
+                  <div className="card-desc">In inventory</div>
+                </div>
+              </div>
+
+              <h2 className="section-title">⏳ Pending Orders</h2>
+              <div className="table-section">
+                <div className="table-header">Approve Orders</div>
+                <div className="table-content">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Medication</th>
+                        <th>Qty</th>
+                        <th>Supplier</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.filter(o => o.status === 'PENDING').map(order => (
+                        <tr key={order.id}>
+                          <td>{order.drug}</td>
+                          <td>{order.qty}</td>
+                          <td>{order.supplier}</td>
+                          <td>{order.date}</td>
+                          <td>
+                            <button 
+                              className="btn btn-primary"
+                              style={{ padding: '8px 16px', fontSize: '12px' }}
+                              onClick={() => handleApprove(order.id)}
+                            >
+                              Approve
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <h2 className="section-title">🚚 Approved Orders</h2>
+              <div className="table-section">
+                <div className="table-header">Confirm Delivery</div>
+                <div className="table-content">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Medication</th>
+                        <th>Qty</th>
+                        <th>Supplier</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orders.filter(o => o.status === 'APPROVED').map(order => (
+                        <tr key={order.id}>
+                          <td>{order.drug}</td>
+                          <td>{order.qty}</td>
+                          <td>{order.supplier}</td>
+                          <td><span className="badge badge-approved">APPROVED</span></td>
+                          <td>
+                            <button 
+                              className="btn btn-primary"
+                              style={{ padding: '8px 16px', fontSize: '12px' }}
+                              onClick={() => handleDeliver(order.id)}
+                            >
+                              Delivered
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* MEDICATIONS TAB */}
+            <div className={`tab-content ${activeTab === 'featured' ? 'active' : ''}`}>
+              <h2 className="section-title">💊 Popular Medications</h2>
+              <div className="product-grid">
+                {drugs.filter(d => 
+                  d.name.toLowerCase().includes(searchQuery.toLowerCase())
+                ).map(drug => (
+                  <div key={drug.id} className="product-card">
+                    <div className="product-image">{drug.icon}</div>
+                    <div className="product-info">
+                      <div className="product-name">{drug.name}</div>
+                      <div className="product-category">{drug.category}</div>
+                      <div className="product-price">{drug.price}/unit</div>
+                      <button 
+                        className="product-btn"
+                        onClick={() => handleAddToOrder(drug.name)}
+                      >
+                        Add to Order
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* FEATURES TAB */}
+            <div className={`tab-content ${activeTab === 'features' ? 'active' : ''}`}>
+              <h2 className="section-title">⭐ Why Choose Stitchr?</h2>
+              <div className="features-grid">
+                <div className="feature-item">
+                  <div className="feature-icon">📝</div>
+                  <div className="feature-title">Simple Ordering</div>
+                  <div className="feature-desc">Order from multiple suppliers in one place. No emails or spreadsheets.</div>
+                </div>
+
+                <div className="feature-item">
+                  <div className="feature-icon">📊</div>
+                  <div className="feature-title">Real-time Dashboard</div>
+                  <div className="feature-desc">Track all orders, inventory, and spending instantly.</div>
+                </div>
+
+                <div className="feature-item">
+                  <div className="feature-icon">🚀</div>
+                  <div className="feature-title">Fast Setup</div>
+                  <div className="feature-desc">Get started in 60 minutes. No training required.</div>
+                </div>
+
+                <div className="feature-item">
+                  <div className="feature-icon">💰</div>
+                  <div className="feature-title">Save Time & Money</div>
+                  <div className="feature-desc">Save 3-5 hours per week on administrative tasks.</div>
+                </div>
+
+                <div className="feature-item">
+                  <div className="feature-icon">🔔</div>
+                  <div className="feature-title">Slack Integration</div>
+                  <div className="feature-desc">Get instant notifications when orders are placed or delivered.</div>
+                </div>
+
+                <div className="feature-item">
+                  <div className="feature-icon">🛡️</div>
+                  <div className="feature-title">Secure & Reliable</div>
+                  <div className="feature-desc">Enterprise-grade security with daily backups.</div>
+                </div>
+              </div>
+
+              <div className="order-form" style={{ marginTop: '40px', textAlign: 'center' }}>
+                <h2 style={{ marginBottom: '20px' }}>Ready to Get Started?</h2>
+                <p style={{ marginBottom: '20px', color: 'var(--text-secondary)' }}>
+                  Join hundreds of independent pharmacies already using Stitchr to streamline their operations.
+                </p>
+                <button className="btn btn-primary" style={{ fontSize: '16px', padding: '16px 40px' }}>
+                  Start Your Free Trial Today
                 </button>
-              </form>
-            </div>
-
-            <div className="form-section">
-              <h2>Your Recent Orders</h2>
-              <div className="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Drug</th>
-                      <th>Quantity</th>
-                      <th>Supplier</th>
-                      <th>Status</th>
-                      <th>Date Submitted</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map(order => (
-                      <tr key={order.id}>
-                        <td>{order.drug}</td>
-                        <td>{order.qty} units</td>
-                        <td>{order.supplier}</td>
-                        <td>
-                          <span className={`status-badge ${getStatusColor(order.status)}`}>
-                            {order.status}
-                          </span>
-                        </td>
-                        <td>{order.date}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
               </div>
             </div>
           </div>
 
-          {/* ADMIN DASHBOARD */}
-          <div className={`tab-content ${activeTab === 'admin' ? 'active' : ''}`}>
-            <div className="dashboard-grid">
-              <div className="card">
-                <div className="card-label">Total Orders</div>
-                <div className="card-value">{totalOrders}</div>
-                <div className="card-desc">All time submitted</div>
-              </div>
-
-              <div className="card">
-                <div className="card-label">Approved Orders</div>
-                <div className="card-value">{approvedOrders}</div>
-                <div className="card-desc">Waiting for delivery</div>
-              </div>
-
-              <div className="card">
-                <div className="card-label">Delivered Orders</div>
-                <div className="card-value">{deliveredOrders}</div>
-                <div className="card-desc">In inventory</div>
-              </div>
-
-              <div className="card">
-                <div className="card-label">Total Spend</div>
-                <div className="card-value">${totalSpend.toLocaleString()}</div>
-                <div className="card-desc">This month</div>
-              </div>
-            </div>
-
-            <div className="form-section">
-              <h2>Pending Orders (Review & Approve)</h2>
-              <div className="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Drug</th>
-                      <th>Qty</th>
-                      <th>Supplier</th>
-                      <th>Cost</th>
-                      <th>Date</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.filter(o => o.status === 'PENDING').map(order => (
-                      <tr key={order.id}>
-                        <td><strong>{order.drug}</strong></td>
-                        <td>{order.qty}</td>
-                        <td>{order.supplier}</td>
-                        <td>
-                          <input 
-                            type="number" 
-                            value={order.cost}
-                            onChange={(e) => setOrders(orders.map(o => 
-                              o.id === order.id ? { ...o, cost: parseInt(e.target.value) || 0 } : o
-                            ))}
-                            placeholder="$"
-                            style={{ width: '80px' }}
-                          />
-                        </td>
-                        <td>{order.date}</td>
-                        <td>
-                          <button 
-                            className="btn-success btn-small"
-                            onClick={() => handleApproveOrder(order.id)}
-                          >
-                            Approve
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {orders.filter(o => o.status === 'PENDING').length === 0 && (
-                  <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-muted)' }}>
-                    No pending orders
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="form-section">
-              <h2>Approved Orders (Confirm Delivery)</h2>
-              <div className="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Drug</th>
-                      <th>Qty</th>
-                      <th>Supplier</th>
-                      <th>Cost</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.filter(o => o.status === 'APPROVED').map(order => (
-                      <tr key={order.id}>
-                        <td><strong>{order.drug}</strong></td>
-                        <td>{order.qty}</td>
-                        <td>{order.supplier}</td>
-                        <td>${order.cost}</td>
-                        <td>
-                          <span className="status-badge status-approved">APPROVED</span>
-                        </td>
-                        <td>
-                          <button 
-                            className="btn-primary btn-small"
-                            onClick={() => handleDeliverOrder(order.id)}
-                          >
-                            Mark Delivered
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                {orders.filter(o => o.status === 'APPROVED').length === 0 && (
-                  <div style={{ padding: '20px', textAlign: 'center', color: 'var(--text-muted)' }}>
-                    No approved orders
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="form-section">
-              <h2>Delivered Orders (History)</h2>
-              <div className="table-container">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Drug</th>
-                      <th>Qty</th>
-                      <th>Supplier</th>
-                      <th>Cost</th>
-                      <th>Date Delivered</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.filter(o => o.status === 'DELIVERED').map(order => (
-                      <tr key={order.id}>
-                        <td><strong>{order.drug}</strong></td>
-                        <td>{order.qty}</td>
-                        <td>{order.supplier}</td>
-                        <td>${order.cost}</td>
-                        <td>{order.date}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          {/* INVENTORY */}
-          <div className={`tab-content ${activeTab === 'inventory' ? 'active' : ''}`}>
-            <div className="dashboard-grid">
-              <div className="card">
-                <div className="card-label">Items in Stock</div>
-                <div className="card-value">{inventory.length}</div>
-                <div className="card-desc">Different drugs</div>
-              </div>
-
-              <div className="card">
-                <div className="card-label">Low Stock Alerts</div>
-                <div className="card-value" style={{ color: 'var(--danger)' }}>
-                  {inventory.filter(i => i.qty < i.reorder).length}
-                </div>
-                <div className="card-desc">Need reordering</div>
-              </div>
-
-              <div className="card">
-                <div className="card-label">Total Units</div>
-                <div className="card-value">
-                  {inventory.reduce((sum, i) => sum + i.qty, 0).toLocaleString()}
-                </div>
-                <div className="card-desc">In inventory</div>
-              </div>
-            </div>
-
-            <div className="form-section">
-              <h2>Current Inventory Levels</h2>
-              {inventory.map(item => {
-                const isLowStock = item.qty < item.reorder;
-                return (
-                  <div key={item.id} className={`inventory-item ${isLowStock ? 'low-stock' : ''}`}>
-                    <div className="inventory-info">
-                      <div className="inventory-name">{item.drug}</div>
-                      <div className="inventory-status">
-                        Reorder level: {item.reorder} units
-                        {isLowStock && ' • 🔴 LOW STOCK'}
-                      </div>
-                    </div>
-                    <div className="inventory-quantity">
-                      {item.qty} <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>units</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="form-section" style={{ marginTop: '30px' }}>
-              <h2>How Inventory Works</h2>
-              <p style={{ marginBottom: '15px', color: 'var(--text-secondary)' }}>
-                When you submit an order as a pharmacy tech:
-              </p>
-              <ul style={{ marginLeft: '20px', color: 'var(--text-secondary)', lineHeight: '2' }}>
-                <li>✓ Admin reviews and approves</li>
-                <li>✓ Supplier delivers to pharmacy</li>
-                <li>✓ Admin marks order as delivered</li>
-                <li>✓ Inventory automatically updates</li>
-                <li>✓ If quantity drops below reorder level → Low stock alert</li>
-              </ul>
-            </div>
-          </div>
-
-          <footer style={{ marginTop: '50px', padding: '20px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '12px', borderTop: '2px solid var(--border)' }}>
-            <p>This is an interactive prototype. Click around, place orders, approve them, mark as delivered.</p>
-            <p>Use this to test the workflow before you build the real thing.</p>
+          {/* FOOTER */}
+          <footer>
+            <p>© 2026 Stitchr - Pharmacy Supply Management Platform</p>
+            <p>Making pharmacy operations simple, efficient, and predictable</p>
           </footer>
-        </div>
+        </>
       );
     };
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<StiтchrPharmacyPrototype />);
+    ReactDOM.createRoot(document.getElementById('root')).render(<StiтchrProfessional />);
   </script>
 </body>
 </html>
